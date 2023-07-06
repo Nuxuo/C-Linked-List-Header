@@ -19,7 +19,9 @@ static Cell* NEW_CELL(double value) {
     return newCell;
 }
 
-int linkedlist_GET_SIZE(struct LinkedList* self) {
+int* linkedlist_GET_SIZE(struct LinkedList* self) {
+    if(self->Head == NULL)
+        return NULL;
     double SIZE = 0;
     Cell* current = self->Head;
     while (current != NULL) {
@@ -27,7 +29,7 @@ int linkedlist_GET_SIZE(struct LinkedList* self) {
         Cell* next = current->Next;
         current = next;
     }
-    return SIZE;
+    return &(SIZE);
 }
 
 double* linkedlist_GET_FIRST(struct LinkedList* self) {
@@ -47,59 +49,170 @@ double* linkedlist_GET_LAST(struct LinkedList* self) {
     return NULL;
 }
 
-double linkedlist_GET_AT(struct LinkedList* self, int position) {
-    // TODO: Implement the function
-    return 0.0;
+double* linkedlist_GET_AT(struct LinkedList* self, int position) {
+    if (self == NULL || self->Head == NULL) {
+        return NULL;
+    }
+
+    int INDEX = 0;
+    Cell* current = self->Head;
+    while (current != NULL) {
+        if(INDEX == position){
+            return &(current->value);
+        }
+        Cell* next = current->Next;
+        current = next;
+        INDEX++;
+    }
+    return NULL;
 }
 
 void linkedlist_INSERT(struct LinkedList* self, int position, double value) {
-    // TODO: Implement the function
+    if (self == NULL || self->Head == NULL) {
+        return;
+    }
+
+    if (position == 0) {
+        Cell* temp = self->Head;
+        self->Head = NEW_CELL(value);
+        self->Head->Next = temp;
+        return;
+    }
+
+    Cell* current = self->Head;
+    int index = 0;
+
+    while (current != NULL) {
+        if (index == position - 1) {
+            Cell* newCell = NEW_CELL(value);
+            Cell* next = current->Next;
+            current->Next = newCell;
+            newCell->Next = next;
+            return;
+        }
+
+        current = current->Next;
+        index++;
+    }
 }
 
 void linkedlist_UPDATE(struct LinkedList* self, int position, double value) {
-    // TODO: Implement the function
+    if (self == NULL || self->Head == NULL) {
+        return;
+    }
+
+    int INDEX = 0;
+    Cell* current = self->Head;
+    while (current != NULL) {
+        if(INDEX == position){
+            current->value = value;
+            return;
+        }
+        Cell* next = current->Next;
+        current = next;
+        INDEX++;
+    }
 }
 
-int linkedlist_FIND(struct LinkedList* self, double search_value) {
-    // TODO: Implement the function
-    return -1;
+int* linkedlist_FIND(struct LinkedList* self, double search_value) {
+    if (self == NULL || self->Head == NULL) {
+        return;
+    }
+    int INDEX = 0;
+    Cell* current = self->Head;
+    while (current != NULL) {
+        if(current->value == search_value){
+            return &(INDEX);
+        }
+        Cell* next = current->Next;
+        current = next;
+        INDEX++;
+    }
+    return NULL;
 }
 
-int linkedlist_COUNT(struct LinkedList* self, double search_value) {
-    // TODO: Implement the function
-    return 0;
+int* linkedlist_COUNT(struct LinkedList* self, double search_value) {
+    double ITEMS = 0;
+    Cell* current = self->Head;
+    while (current != NULL) {
+        ITEMS++;
+        Cell* next = current->Next;
+        current = next;
+    }
+    return &(ITEMS);
 }
 
 void linkedlist_REMOVE_FIRST(struct LinkedList* self) {
-    // TODO: Implement the function
+    if (self == NULL || self->Head == NULL) {
+        return;
+    }
+    Cell* temp_next = self->Head->Next;
+    free(self->Head);
+    self->Head = temp_next;
 }
 
 void linkedlist_REMOVE_LAST(struct LinkedList* self) {
-    // TODO: Implement the function
-}
+    if (self == NULL || self->Head == NULL) {
+        return;
+    }
 
-void linkedlist_REMOVE_AT(struct LinkedList* self, int position) {
-    // TODO: Implement the function
-}
+    if(self->Head->Next == NULL){
+        free(self->Head);
+        self->Head = NULL;
+    }
 
-void linkedlist_REMOVE_ALL(struct LinkedList* self, double value) {
-    // TODO: Implement the function
+    Cell* current = self->Head->Next;
+    Cell* prev = self->Head;
+
+    while (current != NULL) {
+        if(current->Next == NULL){
+            prev->Next = NULL;
+            free(current);
+        }
+        Cell* next = current->Next;
+        current = next;
+    }
+    return NULL;
 }
 
 LinkedList linkedlist_COPY(struct LinkedList* self) {
-    LinkedList newLinkedList;
-    // TODO: Implement the function to create a copy of the linked list
+    LinkedList newLinkedList = new_linkedList();
+
+    Cell* current = self->Head;
+    while (current != NULL) {
+        Cell* next = current->Next;
+        linkedlist_APPEND(&newLinkedList,current->value);
+        current = next;
+    }
+
     return newLinkedList;
 }
 
 LinkedList linkedlist_CONCATENATE(struct LinkedList* list1, struct LinkedList* list2) {
     LinkedList concatenatedList;
-    // TODO: Implement the function to concatenate the two linked lists
+
+    if (list1 == NULL || list1->Head == NULL) {
+        concatenatedList = *list2;
+        return concatenatedList;
+    }
+
+    if (list2 == NULL || list2->Head == NULL) {
+        concatenatedList = *list1;
+        return concatenatedList;
+    }
+
+    Cell* lastCell = list1->Head;
+    while (lastCell->Next != NULL) {
+        lastCell = lastCell->Next;
+    }
+
+    lastCell->Next = list2->Head;
+
+    concatenatedList = *list1;
     return concatenatedList;
 }
 
-
-void linkedlist_POSITION_DELETE(struct LinkedList* self, int position) {
+void linkedlist_REMOVE_AT(struct LinkedList* self, int position) {
     if (self == NULL || self->Head == NULL) {
         return;
     }
@@ -176,7 +289,7 @@ bool linkedlist_CONTAINS(struct LinkedList* self, double search_value){
     return false;
 }
 
-double linkedlist_SUM(struct LinkedList* self){
+double* linkedlist_SUM(struct LinkedList* self){
     double SUM = 0.0;
     Cell* current = self->Head;
     while (current != NULL) {
@@ -184,10 +297,10 @@ double linkedlist_SUM(struct LinkedList* self){
         Cell* next = current->Next;
         current = next;
     }
-    return SUM;
+    return &(SUM);
 }
 
-double linkedlist_AVG(struct LinkedList* self){
+double* linkedlist_AVG(struct LinkedList* self){
     double SUM = 0; int ITEMS = 0;
     Cell* current = self->Head;
     while (current != NULL) {
@@ -196,8 +309,8 @@ double linkedlist_AVG(struct LinkedList* self){
         Cell* next = current->Next;
         current = next;
     }
-
-    return SUM / ITEMS;
+    SUM = SUM / ITEMS;
+    return &(SUM);
 }
 
 void linkedlist_BUBBLESORT(struct LinkedList* self){
@@ -275,6 +388,7 @@ void linkedlist_CLEAR(LinkedList* LinkedList) {
         free(current);
         current = next;
     }
+    free(LinkedList->Head);
     LinkedList->Head = NULL;
 }
 
