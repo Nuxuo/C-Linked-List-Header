@@ -20,18 +20,31 @@ static Cell* NEW_CELL(double value) {
 }
 
 int linkedlist_GET_SIZE(struct LinkedList* self) {
-    // TODO: Implement the function
-    return 0;
+    double SIZE = 0;
+    Cell* current = self->Head;
+    while (current != NULL) {
+        SIZE++;
+        Cell* next = current->Next;
+        current = next;
+    }
+    return SIZE;
 }
 
-double linkedlist_GET_FIRST(struct LinkedList* self) {
-    // TODO: Implement the function
-    return 0.0;
+double* linkedlist_GET_FIRST(struct LinkedList* self) {
+    if(self->Head == NULL || &(self->Head->value) == NULL)
+        return NULL;
+    return &(self->Head->value);
 }
 
-double linkedlist_GET_LAST(struct LinkedList* self) {
-    // TODO: Implement the function
-    return 0.0;
+double* linkedlist_GET_LAST(struct LinkedList* self) {
+    Cell* current = self->Head;
+    while (current != NULL) {
+        if(current->Next == NULL)
+            return &(current->value);
+        Cell* next = current->Next;
+        current = next;
+    }
+    return NULL;
 }
 
 double linkedlist_GET_AT(struct LinkedList* self, int position) {
