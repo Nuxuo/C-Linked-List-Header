@@ -1,4 +1,6 @@
-/.vscode
-/LinkedList.exe
-/tester.c
-/tester.exe
+# Ignore everything
+*
+
+# Include specific files
+!LinkedList.h
+!README.md
