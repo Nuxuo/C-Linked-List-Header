@@ -3,25 +3,29 @@
 
 typedef enum { false = 0, true = !false } bool;
 
+typedef enum { STRING, INT, CHAR, FLOAT, DOUBLE, BOOL } type;
+
 typedef struct Cell {
-    double value;
+    void * value;
     struct Cell* Next;
 } Cell;
 
 typedef struct LinkedList {
     struct Cell* Head;
+    type type;
 } LinkedList;
 
-static Cell* NEW_CELL(double value) {
+static Cell* NEW_CELL(void * value) {
     Cell* newCell = malloc(sizeof(Cell));
     newCell->value = value;
     newCell->Next = NULL;
     return newCell;
 }
 
-LinkedList new_linkedList() {
+LinkedList new_linkedList(type listType) {
     LinkedList _LINKEDLinkedList_;
     _LINKEDLinkedList_.Head = NULL;
+    _LINKEDLinkedList_.type = listType;
     return _LINKEDLinkedList_;
 }
 
@@ -40,7 +44,7 @@ int linkedlist_GET_SIZE(struct LinkedList* self) {
     return SIZE;
 }
 
-void linkedlist_ADD(struct LinkedList* self, double value) {
+void linkedlist_ADD(struct LinkedList* self, void * value) {
     if (self->Head == NULL) {
         self->Head = NEW_CELL(value);
     } else {
@@ -50,7 +54,7 @@ void linkedlist_ADD(struct LinkedList* self, double value) {
     }
 }
 
-void linkedlist_APPEND(struct LinkedList* self, double value) {
+void linkedlist_APPEND(struct LinkedList* self, void * value) {
     if (self->Head == NULL) {
         self->Head = NEW_CELL(value);
     } else {
@@ -62,24 +66,24 @@ void linkedlist_APPEND(struct LinkedList* self, double value) {
     }
 }
 
-double* linkedlist_GET_FIRST(struct LinkedList* self) {
+void* linkedlist_GET_FIRST(struct LinkedList* self) {
     if(self->Head == NULL || &(self->Head->value) == NULL)
         return NULL;
-    return &(self->Head->value);
+    return self->Head->value;
 }
 
-double* linkedlist_GET_LAST(struct LinkedList* self) {
+void* linkedlist_GET_LAST(struct LinkedList* self) {
     Cell* current = self->Head;
     while (current != NULL) {
         if(current->Next == NULL)
-            return &(current->value);
+            return current->value;
         Cell* next = current->Next;
         current = next;
     }
     return NULL;
 }
 
-double* linkedlist_GET_AT(struct LinkedList* self, int position) {
+void* linkedlist_GET_AT(struct LinkedList* self, int position) {
     if (self == NULL || self->Head == NULL) {
         return NULL;
     }
@@ -88,7 +92,7 @@ double* linkedlist_GET_AT(struct LinkedList* self, int position) {
     Cell* current = self->Head;
     while (current != NULL) {
         if(INDEX == position){
-            return &(current->value);
+            return current->value;
         }
         Cell* next = current->Next;
         current = next;
@@ -97,7 +101,7 @@ double* linkedlist_GET_AT(struct LinkedList* self, int position) {
     return NULL;
 }
 
-void linkedlist_INSERT(struct LinkedList* self, int position, double value) {
+void linkedlist_INSERT(struct LinkedList* self, int position, void * value) {
     if (self == NULL || self->Head == NULL) {
         return;
     }
@@ -126,7 +130,7 @@ void linkedlist_INSERT(struct LinkedList* self, int position, double value) {
     }
 }
 
-void linkedlist_UPDATE(struct LinkedList* self, int position, double value) {
+void linkedlist_UPDATE(struct LinkedList* self, int position, void * value) {
     if (self == NULL || self->Head == NULL) {
         return;
     }
@@ -144,7 +148,7 @@ void linkedlist_UPDATE(struct LinkedList* self, int position, double value) {
     }
 }
 
-int linkedlist_FIND(struct LinkedList* self, double search_value) {
+int linkedlist_FIND(struct LinkedList* self, void * search_value) {
     if (self == NULL || self->Head == NULL) {
         return -1;
     }
@@ -162,7 +166,7 @@ int linkedlist_FIND(struct LinkedList* self, double search_value) {
     return -1;
 }
 
-int linkedlist_COUNT(struct LinkedList* self, double search_value) {
+int linkedlist_COUNT(struct LinkedList* self) {
     int ITEMS = 0;
     Cell* current = self->Head;
     while (current != NULL) {
@@ -206,7 +210,7 @@ void linkedlist_REMOVE_LAST(struct LinkedList* self) {
 }
 
 LinkedList linkedlist_COPY(struct LinkedList* self) {
-    LinkedList newLinkedList = new_linkedList();
+    LinkedList newLinkedList = new_linkedList(self->type);
 
     Cell* current = self->Head;
     while (current != NULL) {
@@ -231,6 +235,7 @@ LinkedList linkedlist_CONCATENATE(struct LinkedList* list1, struct LinkedList* l
         return concatenatedList;
     }
 
+    concatenatedList = *list1;
     Cell* lastCell = list1->Head;
     while (lastCell->Next != NULL) {
         lastCell = lastCell->Next;
@@ -238,7 +243,6 @@ LinkedList linkedlist_CONCATENATE(struct LinkedList* list1, struct LinkedList* l
 
     lastCell->Next = list2->Head;
 
-    concatenatedList = *list1;
     return concatenatedList;
 }
 
@@ -272,7 +276,7 @@ void linkedlist_REMOVE_AT(struct LinkedList* self, int position) {
     free(current);
 }
 
-void linkedlist_VALUE_DELETE(struct LinkedList* self, double search_value) {
+void linkedlist_VALUE_DELETE(struct LinkedList* self, void * search_value) {
     if (self == NULL || self->Head == NULL) {
         return;
     }
@@ -307,7 +311,7 @@ void linkedlist_VALUE_DELETE(struct LinkedList* self, double search_value) {
     }
 }
 
-bool linkedlist_CONTAINS(struct LinkedList* self, double search_value){
+bool linkedlist_CONTAINS(struct LinkedList* self, void * search_value){
     Cell* current = self->Head;
     while (current != NULL) {
         if(current->value == search_value)
@@ -318,49 +322,49 @@ bool linkedlist_CONTAINS(struct LinkedList* self, double search_value){
     return false;
 }
 
-double linkedlist_SUM(struct LinkedList* self){
-    double SUM = 0;
-    Cell* current = self->Head;
-    while (current != NULL) {
-        SUM = SUM + current->value;
-        Cell* next = current->Next;
-        current = next;
-    }
-    return SUM;
-}
+// void * linkedlist_SUM(struct LinkedList* self){
+//     void * SUM = 0;
+//     Cell* current = self->Head;
+//     while (current != NULL) {
+//         SUM = SUM + current->value;
+//         Cell* next = current->Next;
+//         current = next;
+//     }
+//     return SUM;
+// }
 
-double linkedlist_AVG(struct LinkedList* self){
-    double SUM = 0; int ITEMS = 0;
-    Cell* current = self->Head;
-    while (current != NULL) {
-        SUM = SUM + current->value;
-        ITEMS ++;
-        Cell* next = current->Next;
-        current = next;
-    }
-    SUM = SUM / ITEMS;
-    return SUM;
-}
+// double linkedlist_AVG(struct LinkedList* self){
+//     double SUM = 0; int ITEMS = 0;
+//     Cell* current = self->Head;
+//     while (current != NULL) {
+//         SUM = SUM + current->value;
+//         ITEMS ++;
+//         Cell* next = current->Next;
+//         current = next;
+//     }
+//     SUM = SUM / ITEMS;
+//     return SUM;
+// }
 
-void linkedlist_BUBBLESORT(struct LinkedList* self){
-    Cell * SortSeeker = self->Head;
-    int Sorted = 1;
+// void linkedlist_BUBBLESORT(struct LinkedList* self){
+//     Cell * SortSeeker = self->Head;
+//     int Sorted = 1;
 
-    while (Sorted == 1){
-        Sorted = 0;
-        while (SortSeeker->Next != NULL)
-        {
-            if(SortSeeker->value > SortSeeker->Next->value ? true : false) {
-                double TEMP_SIZE = SortSeeker->value;
-                SortSeeker->value = SortSeeker->Next->value;
-                SortSeeker->Next->value = TEMP_SIZE;
-                Sorted = 1;
-            }
-            SortSeeker = SortSeeker->Next;
-        }
-        SortSeeker = self->Head;
-    }
-}
+//     while (Sorted == 1){
+//         Sorted = 0;
+//         while (SortSeeker->Next != NULL)
+//         {
+//             if(SortSeeker->value > SortSeeker->Next->value ? true : false) {
+//                 double TEMP_SIZE = SortSeeker->value;
+//                 SortSeeker->value = SortSeeker->Next->value;
+//                 SortSeeker->Next->value = TEMP_SIZE;
+//                 Sorted = 1;
+//             }
+//             SortSeeker = SortSeeker->Next;
+//         }
+//         SortSeeker = self->Head;
+//     }
+// }
 
 void linkedlist_REVERSE(struct LinkedList* self){
     if(self->Head == NULL || self->Head->Next == NULL)
@@ -382,7 +386,15 @@ void linkedlist_REVERSE(struct LinkedList* self){
 void linkedlist_DISPLAY(struct LinkedList* self) {
     Cell* current = self->Head;
     while (current != NULL) {
-        printf("[%.6g]", current->value);
+        switch(self->type){
+            case CHAR:   printf("[%c]",   *((char*)  (current->value))); break;
+            case INT:    printf("[%d]",   *((int*)    current->value));  break;
+            case STRING: printf("[%s]",    (char*)    current->value);   break;
+            case FLOAT:  printf("[%f]",   *((float*)  current->value));  break;
+            case DOUBLE: printf("[%lf]",  *((double*) current->value));  break;
+            case BOOL:   printf("[%s]",  (*((bool*)   current->value)) ? "true" : "false"); break;
+            default:      printf("Error"); break;
+        }
         current = current->Next;
     }
     printf("\n");
