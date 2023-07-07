@@ -20,12 +20,13 @@ The following types are defined in the code:
 typedef enum { STRING, INT, CHAR, FLOAT, DOUBLE, BOOL } type;
 
 typedef struct Cell {
-    double value;
+    void * value;
     struct Cell* Next;
 } Cell;
 
 typedef struct LinkedList {
     struct Cell* Head;
+    type type;
 } LinkedList;
 ```
 
