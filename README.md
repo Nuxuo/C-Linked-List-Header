@@ -17,6 +17,8 @@ The provided code implements a linked list data structure in C. It includes vari
 The following types are defined in the code:
 
 ```c
+typedef enum { STRING, INT, CHAR, FLOAT, DOUBLE, BOOL } type;
+
 typedef struct Cell {
     double value;
     struct Cell* Next;
@@ -52,9 +54,9 @@ A struct representing the linked list itself, containing a pointer to the Head n
 | `void`      | `linkedlist_REMOVE_AT`  | `struct LinkedList* self, int position` | Removes the element at the specified position. | O(n)       |
 | `void`      | `linkedlist_VALUE_DELETE` | `struct LinkedList* self, void * search_value` | Removes all occurrences of a value. | O(n)           |
 | `bool`      | `linkedlist_CONTAINS`   | `struct LinkedList* self, void * search_value` | Checks if the linked list contains a value. | O(n)      |
-| ~~`void*`   | `linkedlist_SUM`        | `struct LinkedList* self`            | Calculates the sum of all elements. | O(n)            ~~|
-| ~~`void*`   | `linkedlist_AVG`        | `struct LinkedList* self`            | Calculates the average of all elements. | O(n)        ~~|
-| ~~`void`    | `linkedlist_BUBBLESORT` | `struct LinkedList* self`            | Sorts the elements in ascending order using bubble sort. | O(n^2) ~~|
+<!-- | `void*`   | `linkedlist_SUM`        | `struct LinkedList* self`            | Calculates the sum of all elements. | O(n)            |
+| `void*`   | `linkedlist_AVG`        | `struct LinkedList* self`            | Calculates the average of all elements. | O(n)        |
+| `void`    | `linkedlist_BUBBLESORT` | `struct LinkedList* self`            | Sorts the elements in ascending order using bubble sort. | O(n^2) | -->
 | `void`      | `linkedlist_REVERSE`    | `struct LinkedList* self`            | Reverses the order of elements. | O(n)                |
 | `void`      | `linkedlist_ADD`        | `struct LinkedList* self, void * value` | Adds a new element to the end of the linked list. | O(1)   |
 
