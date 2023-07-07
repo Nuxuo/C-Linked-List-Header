@@ -35,29 +35,28 @@ A struct representing the linked list itself, containing a pointer to the Head n
 
 ## Function List
 
-| Return Type | Function Name                                                            | Parameters                                                    | Description                                                  |
-|-------------|--------------------------------------------------------------------------|---------------------------------------------------------------|--------------------------------------------------------------|
-| `Cell*`     | `NEW_CELL`                                                               | `double value`                                                | Creates a new cell with the given value.                     |
-| `int*`      | `linkedlist_GET_SIZE`                                                    | `struct LinkedList* self`                                     | Returns the number of elements in the linked list.           |
-| `double*`   | `linkedlist_GET_FIRST`                                                   | `struct LinkedList* self`                                     | Returns a pointer to the value of the first element.         |
-| `double*`   | `linkedlist_GET_LAST`                                                    | `struct LinkedList* self`                                     | Returns a pointer to the value of the last element.          |
-| `double*`   | `linkedlist_GET_AT`                                                      | `struct LinkedList* self, int position`                        | Returns a pointer to the value at the specified position.    |
-| `void`      | `linkedlist_INSERT`                                                      | `struct LinkedList* self, int position, double value`         | Inserts a new element at the specified position.             |
-| `void`      | `linkedlist_UPDATE`                                                      | `struct LinkedList* self, int position, double value`         | Updates the value at the specified position.                 |
-| `int*`      | `linkedlist_FIND`                                                        | `struct LinkedList* self, double search_value`                | Finds the position of the first occurrence of a value.       |
-| `int*`      | `linkedlist_COUNT`                                                       | `struct LinkedList* self, double search_value`                | Counts the number of occurrences of a value.                 |
-| `void`      | `linkedlist_REMOVE_FIRST`                                                | `struct LinkedList* self`                                     | Removes the first element.                                   |
-| `void`      | `linkedlist_REMOVE_LAST`                                                 | `struct LinkedList* self`                                     | Removes the last element.                                    |
-| `LinkedList`| `linkedlist_COPY`                                                        | `struct LinkedList* self`                                     | Creates a copy of the linked list.                           |
-| `LinkedList`| `linkedlist_CONCATENATE`                                                 | `struct LinkedList* list1, struct LinkedList* list2`          | Concatenates two linked lists.                               |
-| `void`      | `linkedlist_REMOVE_AT`                                                   | `struct LinkedList* self, int position`                        | Removes the element at the specified position.               |
-| `void`      | `linkedlist_VALUE_DELETE`                                                | `struct LinkedList* self, double search_value`                | Removes all occurrences of a value.                          |
-| `bool`      | `linkedlist_CONTAINS`                                                    | `struct LinkedList* self, double search_value`                | Checks if the linked list contains a value.                  |
-| `double*`   | `linkedlist_SUM`                                                         | `struct LinkedList* self`                                     | Calculates the sum of all elements.                          |
-| `double*`   | `linkedlist_AVG`                                                         | `struct LinkedList* self`                                     | Calculates the average of all elements.                      |
-| `void`      | `linkedlist_BUBBLESORT`                                                  | `struct LinkedList* self`                                     | Sorts the elements in ascending order using bubble sort.     |
-| `void`      | `linkedlist_REVERSE`                                                     | `struct LinkedList* self`                                     | Reverses the order of elements.                              |
-| `void`      | `linkedlist_ADD`                                                         | `struct LinkedList* self, double value`                       | Adds a new element to the end of the linked list.            |
+| Return Type | Function Name           | Parameters                           | Description                                        | Time Complexity |
+|-------------|-------------------------|--------------------------------------|----------------------------------------------------|-----------------|
+| `int*`      | `linkedlist_GET_SIZE`   | `struct LinkedList* self`            | Returns the number of elements in the linked list. | O(n)            |
+| `double*`   | `linkedlist_GET_FIRST`  | `struct LinkedList* self`            | Returns a pointer to the value of the first element. | O(1)           |
+| `double*`   | `linkedlist_GET_LAST`   | `struct LinkedList* self`            | Returns a pointer to the value of the last element. | O(n)            |
+| `double*`   | `linkedlist_GET_AT`     | `struct LinkedList* self, int position` | Returns a pointer to the value at the specified position. | O(n)      |
+| `void`      | `linkedlist_INSERT`     | `struct LinkedList* self, int position, double value` | Inserts a new element at the specified position. | O(n)    |
+| `void`      | `linkedlist_UPDATE`     | `struct LinkedList* self, int position, double value` | Updates the value at the specified position. | O(n)    |
+| `int*`      | `linkedlist_FIND`       | `struct LinkedList* self, double search_value` | Finds the position of the first occurrence of a value. | O(n) |
+| `int*`      | `linkedlist_COUNT`      | `struct LinkedList* self, double search_value` | Counts the number of occurrences of a value. | O(n) |
+| `void`      | `linkedlist_REMOVE_FIRST` | `struct LinkedList* self` | Removes the first element. | O(1)               |
+| `void`      | `linkedlist_REMOVE_LAST`  | `struct LinkedList* self` | Removes the last element. | O(n)                |
+| `LinkedList`| `linkedlist_COPY`       | `struct LinkedList* self`            | Creates a copy of the linked list. | O(n)             |
+| `LinkedList`| `linkedlist_CONCATENATE`| `struct LinkedList* list1, struct LinkedList* list2` | Concatenates two linked lists. | O(n)               |
+| `void`      | `linkedlist_REMOVE_AT`  | `struct LinkedList* self, int position` | Removes the element at the specified position. | O(n)       |
+| `void`      | `linkedlist_VALUE_DELETE` | `struct LinkedList* self, double search_value` | Removes all occurrences of a value. | O(n)           |
+| `bool`      | `linkedlist_CONTAINS`   | `struct LinkedList* self, double search_value` | Checks if the linked list contains a value. | O(n)      |
+| `double*`   | `linkedlist_SUM`        | `struct LinkedList* self`            | Calculates the sum of all elements. | O(n)            |
+| `double*`   | `linkedlist_AVG`        | `struct LinkedList* self`            | Calculates the average of all elements. | O(n)        |
+| `void`      | `linkedlist_BUBBLESORT` | `struct LinkedList* self`            | Sorts the elements in ascending order using bubble sort. | O(n^2) |
+| `void`      | `linkedlist_REVERSE`    | `struct LinkedList* self`            | Reverses the order of elements. | O(n)                |
+| `void`      | `linkedlist_ADD`        | `struct LinkedList* self, double value` | Adds a new element to the end of the linked list. | O(1)   |
 
 For detailed descriptions of each function, refer to the code comments.
 
