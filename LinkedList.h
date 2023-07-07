@@ -187,23 +187,22 @@ void linkedlist_REMOVE_LAST(struct LinkedList* self) {
         return;
     }
 
-    if(self->Head->Next == NULL){
+    if (self->Head->Next == NULL) {
         free(self->Head);
         self->Head = NULL;
+        return;
     }
 
-    Cell* current = self->Head->Next;
-    Cell* prev = self->Head;
+    Cell* current = self->Head;
+    Cell* prev = NULL;
 
-    while (current != NULL) {
-        if(current->Next == NULL){
-            prev->Next = NULL;
-            free(current);
-        }
-        Cell* next = current->Next;
-        current = next;
+    while (current->Next != NULL) {
+        prev = current;
+        current = current->Next;
     }
-    return;
+
+    prev->Next = NULL;
+    free(current);
 }
 
 LinkedList linkedlist_COPY(struct LinkedList* self) {
